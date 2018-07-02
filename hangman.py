@@ -66,7 +66,10 @@ def new_game(word_to_guess):
     while guesses > 0:
         print(display)
         print("Guess a char")
-        g = input()
+        try:
+            g = read_input()
+        except ValueError:
+            print("Invalid selection - please choose a letter a-zA-Z")
 
         if g in word_to_guess:
             display = guess(display, word_to_guess, g)
@@ -80,6 +83,15 @@ def new_game(word_to_guess):
         print("You lose")
     else:
         print("You win")
+
+
+def read_input():
+    input_guess = input()
+    if len(input_guess) == 1 & input_guess.isalpha():
+        return input_guess
+    else:
+        raise ValueError
+
 
 def display_art(guesses):
     print(HANGMANART[7 - guesses])
