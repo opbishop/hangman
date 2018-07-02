@@ -1,8 +1,7 @@
 import random
 
-
-def main():
-    HANGMANART = {1: '''
+WORDS = ["monitor", "book"]
+HANGMANART = {1: '''
       +---+
       |   |
           |
@@ -52,9 +51,15 @@ def main():
      / \  |
           |
     ========='''}
-    WORDS = ["monitor", "book"]
 
+
+def set_up_game():
     word_to_guess = random.choice(WORDS)
+
+    new_game(word_to_guess)
+
+
+def new_game(word_to_guess):
     display = ["_"] * len(word_to_guess)
     guesses = 7
 
@@ -88,4 +93,4 @@ def check_win(display):
 
 
 if __name__ == "__main__":
-    main()
+    set_up_game()
