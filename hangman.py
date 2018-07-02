@@ -74,13 +74,15 @@ def new_game(word_to_guess):
                 break
         else:
             guesses -= 1
-            print(HANGMANART[7 - guesses])
+            display_art(guesses)
 
     if guesses == 0:
         print("You lose")
     else:
         print("You win")
 
+def display_art(guesses):
+    print(HANGMANART[7 - guesses])
 
 def guess(display, word_to_guess, g):
     for x in [pos for pos, char in enumerate(word_to_guess) if char == g]:
