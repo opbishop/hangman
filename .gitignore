@@ -1,2 +1,9 @@
 venv/
 .idea/
+__pycache__/
+Include/
+Lib/
+Scripts/
+tcl/
+tests/.pytest_cache/
+pip-selfcheck.json
