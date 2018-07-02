@@ -55,7 +55,6 @@ HANGMANART = {1: '''
 
 def set_up_game():
     word_to_guess = random.choice(WORDS)
-
     new_game(word_to_guess)
 
 
@@ -74,7 +73,6 @@ def new_game(word_to_guess):
                 valid_input = validate_input(input_guess)
             except (ValueError, TypeError):
                 print("Invalid selection - please choose a single letter a-zA-Z")
-
 
         if input_guess in word_to_guess:
             display = guess(display, word_to_guess, input_guess)
