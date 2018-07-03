@@ -1,118 +1,113 @@
 import random
 
-WORDS = ["monitor", "book"]
-HANGMANART = {1: '''
-      +---+
-      |   |
-          |
-          |
-          |
-          |
-    =========''', 2: '''
-      +---+
-      |   |
-      O   |
-          |
-          |
-          |
-    =========''', 3: '''
-      +---+
-      |   |
-      O   |
-      |   |
-          |
-          |
-    =========''', 4: '''
-      +---+
-      |   |
-      O   |
-     /|   |
-          |
-          |
-    =========''', 5: '''
-      +---+
-      |   |
-      O   |
-     /|\  |
-          |
-          |
-    =========''', 6: '''
-      +---+
-      |   |
-      O   |
-     /|\  |
-     /    |
-          |
-    =========''', 7: '''
-      +---+
-      |   |
-      O   |
-     /|\  |
-     / \  |
-          |
-    ========='''}
 
+class HangmanGame:
 
-def set_up_game():
-    word_to_guess = random.choice(WORDS)
-    new_game(word_to_guess)
+    def __init__(self):
+        self.WORDS = ["monitor", "book"]
+        self.HANGMANART = {1: '''
+          +---+
+          |   |
+              |
+              |
+              |
+              |
+        =========''', 2: '''
+          +---+
+          |   |
+          O   |
+              |
+              |
+              |
+        =========''', 3: '''
+          +---+
+          |   |
+          O   |
+          |   |
+              |
+              |
+        =========''', 4: '''
+          +---+
+          |   |
+          O   |
+         /|   |
+              |
+              |
+        =========''', 5: '''
+          +---+
+          |   |
+          O   |
+         /|\  |
+              |
+              |
+        =========''', 6: '''
+          +---+
+          |   |
+          O   |
+         /|\  |
+         /    |
+              |
+        =========''', 7: '''
+          +---+
+          |   |
+          O   |
+         /|\  |
+         / \  |
+              |
+        ========='''}
+        self.guesses = 7
+        self.word_to_guess = random.choice(self.WORDS)
 
+    def new_game(self):
+        display = ["_"] * len(self.word_to_guess)
 
-def new_game(word_to_guess):
-    display = ["_"] * len(word_to_guess)
-    guesses = 7
+        while self.guesses > 0:
+            print(display)
+            valid_input = False
 
-    while guesses > 0:
-        print(display)
-        valid_input = False
+            while valid_input is not True:
+                print("Guess a char")
+                input_guess = input()
+                try:
+                    valid_input = self.validate_input(input_guess)
+                except (ValueError, TypeError):
+                    print("Invalid selection - please choose a single letter a-zA-Z")
 
-        while valid_input is not True:
-            print("Guess a char")
-            input_guess = input()
-            try:
-                valid_input = validate_input(input_guess)
-            except (ValueError, TypeError):
-                print("Invalid selection - please choose a single letter a-zA-Z")
+            if input_guess in self.word_to_guess:
+                display = self.guess(display, input_guess)
+                if self.is_over(display):
+                    break
+            else:
+                self.guesses -= 1
+                self.display_art(self.guesses)
 
-        if input_guess in word_to_guess:
-            display = guess(display, word_to_guess, input_guess)
-            if check_win(display):
-                break
+        if self.guesses == 0:
+            print("You lose")
         else:
-            guesses -= 1
-            display_art(guesses)
-
-    if guesses == 0:
-        print("You lose")
-    else:
-        print("You win")
+            print("You win")
 
 
-def validate_input(input_guess):
-    if len(input_guess) != 1:
-        raise ValueError
-    elif not input_guess.isalpha():
-        raise TypeError
-    else:
-        return True
 
+    @staticmethod
+    def validate_input(input_guess):
+        if len(input_guess) != 1:
+            raise ValueError
+        elif not input_guess.isalpha():
+            raise TypeError
+        else:
+            return True
 
-def display_art(guesses):
-    if guesses > 7 or guesses < 0:
-        raise ValueError
-    else:
-        print(HANGMANART[7 - guesses])
+    def display_art(self, guesses):
+        if self.guesses > 7 or self.guesses < 0:
+            raise ValueError
+        else:
+            print(self.HANGMANART[7 - guesses])
 
+    def guess(self, display, g):
+        for x in [pos for pos, char in enumerate(self.word_to_guess) if char == g]:
+            display[x] = g
+        return display
 
-def guess(display, word_to_guess, g):
-    for x in [pos for pos, char in enumerate(word_to_guess) if char == g]:
-        display[x] = g
-    return display
-
-
-def check_win(display):
-    return "_" not in display
-
-
-if __name__ == "__main__":
-    set_up_game()
+    @staticmethod
+    def is_over(display):
+        return "_" not in display
