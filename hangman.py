@@ -57,36 +57,7 @@ class HangmanGame:
         ========='''}
         self.guesses = 7
         self.word_to_guess = random.choice(self.WORDS)
-
-    def new_game(self):
-        display = ["_"] * len(self.word_to_guess)
-
-        while self.guesses > 0:
-            print(display)
-            valid_input = False
-
-            while valid_input is not True:
-                print("Guess a char")
-                input_guess = input()
-                try:
-                    valid_input = self.validate_input(input_guess)
-                except (ValueError, TypeError):
-                    print("Invalid selection - please choose a single letter a-zA-Z")
-
-            if input_guess in self.word_to_guess:
-                display = self.guess(display, input_guess)
-                if self.is_over(display):
-                    break
-            else:
-                self.guesses -= 1
-                self.display_art(self.guesses)
-
-        if self.guesses == 0:
-            print("You lose")
-        else:
-            print("You win")
-
-
+        self.display = ["_"] * len(self.word_to_guess)
 
     @staticmethod
     def validate_input(input_guess):
@@ -101,12 +72,19 @@ class HangmanGame:
         if self.guesses > 7 or self.guesses < 0:
             raise ValueError
         else:
-            print(self.HANGMANART[7 - guesses])
+            return self.HANGMANART[7 - guesses]
 
-    def guess(self, display, g):
-        for x in [pos for pos, char in enumerate(self.word_to_guess) if char == g]:
-            display[x] = g
-        return display
+    def guess_character(self, input_guess):
+        if input_guess in self.word_to_guess:
+            for x in [pos for pos, char in enumerate(self.word_to_guess) if char == input_guess]:
+                self.display[x] = input_guess
+            if self.is_over(self.display):
+                return "You win"
+            else:
+                return self.display
+        else:
+            self.guesses -= 1
+            return self.display_art(self.guesses)
 
     @staticmethod
     def is_over(display):
