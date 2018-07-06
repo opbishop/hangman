@@ -1,17 +1,19 @@
 import random
+import string
 
 
 class HangmanGame:
 
     def __init__(self):
         self.WORDS = ["monitor", "book"]
+        self.CHARSET = list(string.ascii_lowercase)
         self.HANGMANART = {1: '''
           +---+
-          |   |
-              |
-              |
-              |
-              |
+          |   |\n
+              |\n
+              |\n
+              |\n
+              |\n
         =========''', 2: '''
           +---+
           |   |
@@ -78,14 +80,11 @@ class HangmanGame:
         if input_guess in self.word_to_guess:
             for x in [pos for pos, char in enumerate(self.word_to_guess) if char == input_guess]:
                 self.display[x] = input_guess
-            if self.is_over(self.display):
-                return "You win"
-            else:
-                return self.display
+
         else:
             self.guesses -= 1
-            return self.display_art(self.guesses)
 
-    @staticmethod
-    def is_over(display):
-        return "_" not in display
+
+
+    def is_over(self):
+        return "_" not in self.display

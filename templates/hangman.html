@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hangman</title>
+</head>
+<body>
+
+{% if game.guesses != 7 %}
+    <p>{{ game.HANGMANART[7 - game.guesses] }}</p>
+{% endif %}
+
+<h1>{{ game.display }}</h1>
+
+<div id="alphabet_container">
+    {% for a in game.CHARSET %}
+        <a href="/guess_character/{{a}}">{{a}}</a>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
