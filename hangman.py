@@ -9,11 +9,11 @@ class HangmanGame:
         self.CHARSET = list(string.ascii_lowercase)
         self.HANGMANART = {1: '''
           +---+
-          |   |\n
-              |\n
-              |\n
-              |\n
-              |\n
+          |   |
+              |
+              |
+              |
+              |
         =========''', 2: '''
           +---+
           |   |
